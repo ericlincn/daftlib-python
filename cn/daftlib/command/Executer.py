@@ -11,7 +11,6 @@ class Executer(RemovableEventDispatcher):
     def __init__(self, target = None) -> None:
 
         super().__init__(target)
-
         self.reset()
     
     def reset(self) -> None:
