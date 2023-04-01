@@ -13,3 +13,8 @@ Features
 - 多点触摸的实现 Implementation of multitouch
 - 缓动的实现 Implementation of easing functions
 - 以及其他 And others.
+
+Dependencies
+------------
+- requests
+- aiohttp
