@@ -21,6 +21,7 @@ class Loader(EventDispatcher, ILoadable):
 
     __content:bytes = None
     __url:str = None
+    __response:requests.Response = None
 
     def __init__(self, target = None) -> None:
         super().__init__(target)
@@ -41,6 +42,7 @@ class Loader(EventDispatcher, ILoadable):
             with requests.get(url, stream = True) as response:
                 
                 if response.status_code == 200:
+                    self.__response = response
                     content_length = int(response.headers.get('content-length', 0))
                     content = b''
                     for chunk in response.iter_content(chunk_size = 1024):
@@ -75,3 +77,11 @@ class Loader(EventDispatcher, ILoadable):
             error = ErrorEvent(ErrorEvent.SECURITY_ERROR)
             error.errorMessage = f'SecurityError: {str(e)}'
             self.dispatchEvent(error)
+
+    def cancle(self) -> None:
+        if self.__response:
+            self.__response.close()
+
+        self.__content = None
+        self.__url = None
+        self.__response = None

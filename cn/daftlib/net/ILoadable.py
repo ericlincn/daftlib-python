@@ -10,3 +10,6 @@ class ILoadable:
 
     def load(self, url:str) -> None:
         pass
+
+    def cancle(self) -> None:
+        pass

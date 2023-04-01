@@ -1,6 +1,6 @@
 from cn.daftlib.color.RGB import RGB
 
-class RGB32(RGB):
+class ARGB(RGB):
 
     _a:int
 

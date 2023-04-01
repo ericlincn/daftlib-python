@@ -27,6 +27,7 @@ class AsyncLoader(EventDispatcher, ILoadable):
     
     __content:bytes = None
     __url:str = None
+    __response = None
 
     def __init__(self, target = None) -> None:
         super().__init__(target)
@@ -46,8 +47,9 @@ class AsyncLoader(EventDispatcher, ILoadable):
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(url) as response:
-
+                    
                     if response.status == 200:
+                        self.__response = response
                         content_length = int(response.headers.get('Content-Length', 0))
                         content = b''
                         async for chunk in response.content.iter_chunked(1024):
@@ -92,3 +94,11 @@ class AsyncLoader(EventDispatcher, ILoadable):
             error = ErrorEvent(ErrorEvent.SECURITY_ERROR)
             error.errorMessage = f'SecurityError: {str(e)}'
             self.dispatchEvent(error)
+
+    def cancle(self) -> None:
+        if self.__response:
+            self.__response.close()
+
+        self.__content = None
+        self.__url = None
+        self.__response = None
