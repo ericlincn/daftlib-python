@@ -109,7 +109,6 @@ class EventDispatcher(IEventDispatcher):
     # callback:function
     def addEventListener(self, type:str, listener:callable, useCapture:bool = False, priority:int = 0, useWeakReference:bool = False) -> None:
         
-        # print(self, "addEventListener")
         if listener == None: return
 
         if self.__eventMap == None:
@@ -141,9 +140,6 @@ class EventDispatcher(IEventDispatcher):
     
     def dispatchEvent(self, event:Event) -> bool:
 
-        # if event.type != Event.ENTER_FRAME and event.type != Event.EXIT_FRAME:
-        #     print(self, event.type)
-
         if self.__targetDispatcher:
             event.target = self.__targetDispatcher
         else:
@@ -164,7 +160,7 @@ class EventDispatcher(IEventDispatcher):
 
         if self.__eventMap == None or listener == None: return
 
-        # 可能引发KeyError
+        # Could cause KeyError
         # list = self.__eventMap[type]
         list = self.__eventMap.get(type)
         if list == None: return
