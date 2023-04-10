@@ -16,6 +16,8 @@ class Listener:
     # callback:function
     def match(self, callback:callable, useCapture:bool) -> bool:
         return self.callback == callback and self.useCapture == useCapture
+    def matchCallback(self, callback:callable) -> bool:
+        return self.callback == callback
 
 class DispatchIterator:
 
@@ -65,6 +67,26 @@ class DispatchIterator:
     def stop(self) -> None:
         self.active = False
 
+# Usage:
+# def onComplete(e):
+#     print("complete", e.type)
+# def onComplete2(e):
+#     print("complete2", e.type)
+# def onActive(e):
+#     print("active", e.type)
+# dispatcher = EventDispatcher()
+# dispatcher.addEventListener(Event.COMPLETE, onComplete)
+# dispatcher.addEventListener(Event.ACTIVATE, onActive)
+# dispatcher.addEventListener(Event.COMPLETE, onComplete2)
+# dispatcher.addEventListener(Event.ACTIVATE, onComplete2)
+# dispatcher.dispatchEvent(Event(Event.COMPLETE))
+# dispatcher.dispatchEvent(Event(Event.ACTIVATE))
+# dispatcher.dispatchEvent(Event(Event.COMPLETE))
+# print("removing...")
+# dispatcher.removeEventListenersForListener(onComplete2)
+# dispatcher.dispatchEvent(Event(Event.COMPLETE))
+# dispatcher.dispatchEvent(Event(Event.ACTIVATE))
+# dispatcher.dispatchEvent(Event(Event.COMPLETE))
 
 class EventDispatcher(IEventDispatcher):
 
@@ -80,6 +102,9 @@ class EventDispatcher(IEventDispatcher):
         
         if target:
             self.__targetDispatcher = target
+
+    def __str__(self) -> str:
+        return f"[{str(self.__class__)[8:-2]}]"
 
     # callback:function
     def addEventListener(self, type:str, listener:callable, useCapture:bool = False, priority:int = 0, useWeakReference:bool = False) -> None:
@@ -163,10 +188,6 @@ class EventDispatcher(IEventDispatcher):
             self.__eventMap = None
             self.__iterators = None
 
-    def toString(self) -> str:
-
-        return "[object " + str(type(self)) + "]"
-
     def willTrigger(self, type:str) -> bool:
 
         return self.hasEventListener(type)
@@ -218,11 +239,6 @@ class EventDispatcher(IEventDispatcher):
 
         return not event.isDefaultPrevented()
 
-    def __removeAllListeners(self) -> None:
-
-        self.__eventMap = None
-        self.__iterators = None
-
     def __addListenerByPriority(self, list:list, listener:Listener) -> None:
 
         numElements = len(list)
@@ -235,3 +251,49 @@ class EventDispatcher(IEventDispatcher):
                 break
 
         list.insert(addAtPosition, listener)
+
+    def removeAllEventListeners(self) -> None:
+
+        self.__eventMap = None
+        self.__iterators = None
+    
+    def removeEventListenersForType(self, type: str) -> None:
+
+        if self.__eventMap == None : return
+
+        list = self.__eventMap.get(type)
+        if list == None: return
+
+        del self.__eventMap[type]
+        del self.__iterators[type]
+
+        if len(self.__eventMap) <= 0:
+            self.__eventMap = None
+            self.__iterators = None
+
+    def removeEventListenersForListener(self, listener: callable) -> None:
+        
+        if self.__eventMap == None or listener == None: return
+
+        for type in self.__eventMap:
+            list = self.__eventMap.get(type)
+            if list == None: continue
+
+            iterators = self.__iterators[type]
+
+            for i in range(0, len(list)):
+                if list[i].matchCallback(listener):
+                    for iterator in iterators:
+                        iterator.remove(list[i], i)
+                    # list.splice(i, 1);
+                    list.pop(i)
+                    break
+
+            if len(list) == 0:
+                del self.__eventMap[type]
+                del self.__iterators[type]
+        
+        # if (!__eventMap.iterator().hasNext())
+        if len(self.__eventMap) <= 0:
+            self.__eventMap = None
+            self.__iterators = None

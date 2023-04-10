@@ -13,6 +13,9 @@ class HSL(IColor):
         self._h = h
         self._s = s
         self._l = l
+    
+    def __str__(self) -> str:
+        return f"[{str(self.__class__)[8:-2]}](h={self.h}, s={self.s}, l={self.l})"
 
     @property
     def value(self) -> int:

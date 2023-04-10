@@ -5,6 +5,7 @@ class NotificationsCenter:
 
     __observerMap = dict()
 
+    @staticmethod
     def register(notificationName:str, observer:IObserver) -> None:
 
         observersArr:list = NotificationsCenter.__observerMap.get(notificationName)
@@ -18,6 +19,7 @@ class NotificationsCenter:
         else:
             NotificationsCenter.__observerMap[notificationName] = [observer]
 
+    @staticmethod
     def sendNotification(notificationName:str, data:object) -> None:
 
         observersArr:list = NotificationsCenter.__observerMap.get(notificationName)
@@ -31,9 +33,11 @@ class NotificationsCenter:
             callback(notification)
             i += 1
 
+    @staticmethod
     def unregisterForNotification(notificationName:str) -> None:
         del NotificationsCenter.__observerMap[notificationName]
 
+    @staticmethod
     def unregisterForObserver(observer:IObserver) -> None:
 
         for key in NotificationsCenter.__observerMap:
@@ -49,6 +53,7 @@ class NotificationsCenter:
             if len(observersArr) == 0:
                 del NotificationsCenter.__observerMap[key]
 
+    @staticmethod
     def unregister(notificationName:str, observer:IObserver) -> None:
         
         observersArr:list = NotificationsCenter.__observerMap.get(notificationName)

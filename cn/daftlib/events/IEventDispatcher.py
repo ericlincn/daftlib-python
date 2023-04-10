@@ -17,3 +17,12 @@ class IEventDispatcher:
 
     def willTrigger(self, type:str) -> bool:
         pass
+
+    def removeAllEventListeners(self) -> None:
+        pass
+
+    def removeEventListenersForType(self, type: str) -> None:
+        pass
+
+    def removeEventListenersForListener(self, listener: callable) -> None:
+        pass

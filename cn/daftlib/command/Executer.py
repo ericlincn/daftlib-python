@@ -1,9 +1,11 @@
+from cn.daftlib.core.IDestroyable import IDestroyable
 from cn.daftlib.events.Event import Event
 from cn.daftlib.command.ICommand import ICommand
-from cn.daftlib.core.RemovableEventDispatcher import RemovableEventDispatcher
+from cn.daftlib.events.EventDispatcher import EventDispatcher
+
 import timeit
 
-class Executer(RemovableEventDispatcher):
+class Executer(EventDispatcher, IDestroyable):
 
     __commandsArr:list
     __undoCommand:ICommand
@@ -12,6 +14,9 @@ class Executer(RemovableEventDispatcher):
 
         super().__init__(target)
         self.reset()
+
+    def __str__(self) -> str:
+        return f"[{str(self.__class__)[8:-2]}]"
     
     def reset(self) -> None:
 
@@ -42,7 +47,7 @@ class Executer(RemovableEventDispatcher):
 
     def __completeHandler(self, e:Event) -> None:
         
-        current = e.target
+        current:ICommand = e.target
         current.removeEventListener(Event.COMPLETE, self.__completeHandler)
 
         self.run()
@@ -50,7 +55,7 @@ class Executer(RemovableEventDispatcher):
     def destroy(self) -> None:
 
         self.reset()
-        super().destroy()
+        self.removeAllEventListeners()
 
     def addCommmand(self, command:ICommand):
 

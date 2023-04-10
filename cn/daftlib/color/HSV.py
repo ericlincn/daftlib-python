@@ -14,6 +14,9 @@ class HSV(IColor):
         self._s = s
         self._v = v
 
+    def __str__(self) -> str:
+        return f"[{str(self.__class__)[8:-2]}](h={self.h}, s={self.s}, v={self.v})"
+
     @property
     def value(self, ) -> int:
         self.__updateHSVtoRGB()

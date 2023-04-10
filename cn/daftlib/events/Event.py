@@ -69,6 +69,9 @@ class Event:
         self.__isCanceledNow = False
         self.__preventDefault = False
 
+    def __str__(self) -> str:
+        return f"[{str(self.__class__)[8:-2]}](type={self.type}, bubbles={self.bubbles}, cancelable={self.cancelable})"
+
     # def clone(self) -> Event:
     def clone(self):
 
@@ -77,36 +80,6 @@ class Event:
         event.target = self.target
         event.currentTarget = self.currentTarget
         return event
-
-    def formatToString(self, className:str, p1:str = None, p2:str = None, p3:str = None, p4:str = None, p5:str = None) -> str:
-
-        parameters = []
-        if p1: parameters.append(p1)
-        if p2: parameters.append(p2)
-        if p3: parameters.append(p3)
-        if p4: parameters.append(p4)
-        if p5: parameters.append(p5)
-
-        return self.__formatToString(className, parameters)
-
-    def __formatToString(self, className:str, parameters:list) -> str:
-
-        output = '[{_className}'.format(_className = className)
-        arg = None
-
-        for param in parameters:
-            arg = getattr(self, param)
-            if type(arg) == str:
-                output += ' {_param}="{_arg}"'.format(_param = param, _arg = arg)
-            else:
-                output += ' {_param}={_arg}'.format(_param = param, _arg = arg)
-
-        output += "]"
-        return output
-
-    def toString(self) -> str:
-
-        return self.__formatToString("Event", ["type", "bubbles", "cancelable"])
 
     def isDefaultPrevented(self) -> bool:
 
@@ -125,7 +98,6 @@ class Event:
     def stopPropagation(self) -> None:
 
         self.__isCanceled = True
-
 
     def isCanceled(self) -> bool:
         return self.__isCanceled

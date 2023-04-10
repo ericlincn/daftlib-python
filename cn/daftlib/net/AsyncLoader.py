@@ -32,6 +32,9 @@ class AsyncLoader(EventDispatcher, ILoadable):
     def __init__(self, target = None) -> None:
         super().__init__(target)
 
+    def __str__(self) -> str:
+        return f"[{str(self.__class__)[8:-2]}]"
+
     @property
     def content(self) -> bytes:
         return self.__content

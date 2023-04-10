@@ -10,6 +10,9 @@ class Notification(INotification):
         self.__name = name
         self.__body = body
 
+    def __str__(self) -> str:
+        return f"[{str(self.__class__)[8:-2]}](name={self.name})"
+
     @property
     def name(self) -> str:
         
