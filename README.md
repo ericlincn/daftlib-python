@@ -13,6 +13,47 @@ A collection of commonly used utility classes and data structures.
 - 缓动的实现 Implementation of easing functions
 - 以及其他 And others.
 
+## Usage Example
+> Conversion between color spaces
+```python
+rgb = RGB(23, 255, 7)
+hsl = HSL(120, .5, .3)
+print(hex(rgb.value), hex(hsl.value))
+
+hsl.value = rgb.value
+print(hex(hsl.value), ColorUtil.getDifference(hsl.value, rgb.value))
+```
+
+> Event system
+```python
+def onComplete(e):
+    print("complete", e)
+    
+def onComplete2(e):
+    print("complete2", e)
+    
+def onActive(e):
+    print("active", e)
+    
+dispatcher = EventDispatcher()
+dispatcher.addEventListener(Event.COMPLETE, onComplete)
+dispatcher.addEventListener(Event.ACTIVATE, onActive)
+dispatcher.addEventListener(Event.COMPLETE, onComplete2)
+dispatcher.addEventListener(Event.ACTIVATE, onComplete2)
+dispatcher.dispatchEvent(Event(Event.COMPLETE))
+dispatcher.dispatchEvent(Event(Event.ACTIVATE))
+dispatcher.dispatchEvent(Event(Event.COMPLETE))
+
+print("Try to remove some listeners...")
+dispatcher.removeEventListenersForListener(onComplete2)
+dispatcher.removeEventListenersForType(Event.COMPLETE)
+dispatcher.dispatchEvent(Event(Event.COMPLETE))
+dispatcher.dispatchEvent(Event(Event.ACTIVATE))
+dispatcher.dispatchEvent(Event(Event.COMPLETE))
+
+dispatcher.removeAllEventListeners()
+```
+
 ## Requirements
 - requests
 - aiohttp
