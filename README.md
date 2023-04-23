@@ -14,7 +14,7 @@ A collection of commonly used utility classes and data structures.
 - 以及其他 And others.
 
 ## Usage Example
-> Conversion between color spaces
+Conversion between color spaces
 ```python
 rgb = RGB(23, 255, 7)
 hsl = HSL(120, .5, .3)
@@ -24,7 +24,7 @@ hsl.value = rgb.value
 print(hex(hsl.value), ColorUtil.getDifference(hsl.value, rgb.value))
 ```
 
-> Event system
+Event system
 ```python
 def onComplete(e):
     print("complete", e)
