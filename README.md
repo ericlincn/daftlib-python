@@ -13,6 +13,6 @@ A collection of commonly used utility classes and data structures.
 - 缓动的实现 Implementation of easing functions
 - 以及其他 And others.
 
-## Dependencies
+## Requirements
 - requests
 - aiohttp
