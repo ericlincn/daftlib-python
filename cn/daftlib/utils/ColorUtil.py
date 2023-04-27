@@ -58,8 +58,8 @@ class ColorUtil:
     @staticmethod
     def getDifference(color1:int, color2:int):
         # convert to (r, g, b)
-        color1 = (color1 >> 16, (color1 & 0x00ff00) >> 8, color1 & 0x0000ff)
-        color2 = (color2 >> 16, (color2 & 0x00ff00) >> 8, color2 & 0x0000ff)
-        averageR = (color1[0] + color2[0]) * 0.5
-        diff = ((2 + averageR / 255) * pow(color1[0] - color2[0], 2) + 4 * pow(color1[1] - color2[1], 2) + (2 + (255 - averageR) / 255) * pow(color1[2]- color2[2], 2)) / (3 * 255) / (3 * 255)
+        color1_rgb = (color1 >> 16, (color1 & 0x00ff00) >> 8, color1 & 0x0000ff)
+        color2_rgb = (color2 >> 16, (color2 & 0x00ff00) >> 8, color2 & 0x0000ff)
+        averageR = (color1_rgb[0] + color2_rgb[0]) * 0.5
+        diff = ((2 + averageR / 255) * pow(color1_rgb[0] - color2_rgb[0], 2) + 4 * pow(color1_rgb[1] - color2_rgb[1], 2) + (2 + (255 - averageR) / 255) * pow(color1_rgb[2]- color2_rgb[2], 2)) / (3 * 255) / (3 * 255)
         return diff

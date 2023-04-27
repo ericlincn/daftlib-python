@@ -8,8 +8,8 @@ class EnterFrame(EventDispatcher):
     __fps:int
     __isRunning:bool
     
-    def __init__(self, fps:int = 60, target = None) -> None:
-        super().__init__(target)
+    def __init__(self, fps:int = 60) -> None:
+        super().__init__()
         self.__fps = fps
         self.__isRunning = True
         thread = threading.Thread(target=self.__timer)

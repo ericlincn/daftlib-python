@@ -1,5 +1,6 @@
 import random
 import sys
+from operator import itemgetter
 
 class ArrayUtil:
 
@@ -15,6 +16,10 @@ class ArrayUtil:
     @staticmethod
     def sortByAttribute(target:list, attribute:str) -> None:
         target.sort(key=lambda x: getattr(x, attribute))
+
+    @staticmethod
+    def sortByKey(target:list, key:str) -> None:
+        target.sort(key=itemgetter(key))
 
     @staticmethod
     def switchElements(target:list, index1:int, index2:int) -> None:

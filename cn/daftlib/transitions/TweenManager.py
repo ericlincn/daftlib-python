@@ -1,3 +1,4 @@
+from typing import Any
 from cn.daftlib.events.Event import Event
 from cn.daftlib.transitions.Tween import Tween
 from cn.daftlib.time.EnterFrame import EnterFrame
@@ -17,15 +18,15 @@ from cn.daftlib.time.EnterFrame import EnterFrame
 
 class TweenManager:
 
-    __tweenMap:dict[Tween] = {}
+    __tweenMap:dict[Any, Tween] = {}
     __pulseTarget:EnterFrame = None
 
     @staticmethod
-    def setPulseTarget(pulseTarget:EnterFrame):
+    def setPulseTarget(pulseTarget:EnterFrame) -> None:
         TweenManager.__pulseTarget = pulseTarget
 
     @staticmethod
-    def tweenTo(target, duration, vars):
+    def tweenTo(target, duration, vars) -> None:
         oldTween:Tween = TweenManager.__tweenMap.get(target)
         newTween:Tween = Tween(target, duration, vars)
 
@@ -40,7 +41,7 @@ class TweenManager:
         TweenManager.__tweenMap[target] = newTween
 
     @staticmethod
-    def tweenFrom(target, duration, vars):
+    def tweenFrom(target, duration, vars) -> None:
         oldTween:Tween = TweenManager.__tweenMap.get(target)
         newTween:Tween = Tween(target, duration, vars, True)
 
@@ -55,7 +56,7 @@ class TweenManager:
         TweenManager.__tweenMap[target] = newTween
 
     @staticmethod
-    def delayCall(delay, func, funcParams = None):
+    def delayCall(delay, func, funcParams = None) -> None:
         oldTween:Tween = TweenManager.__tweenMap.get(func)
         newTween:Tween = Tween(func, 0, {'delay':delay, 'onComplete':func, 'onCompleteParams':funcParams})
 
@@ -70,7 +71,7 @@ class TweenManager:
         TweenManager.__tweenMap[func] = newTween
 
     @staticmethod
-    def removeTweenForTarget(target):
+    def removeTweenForTarget(target) -> None:
         oldTween:Tween = TweenManager.__tweenMap.get(target)
 
         if oldTween != None:
@@ -80,11 +81,11 @@ class TweenManager:
             del TweenManager.__tweenMap[target]
 
     @staticmethod
-    def removeDelayCallForMethod(func):
+    def removeDelayCallForMethod(func) -> None:
         TweenManager.removeTweenForTarget(func)
 
     @staticmethod
-    def removeAllTween():
+    def removeAllTween() -> None:
         for key in TweenManager.__tweenMap:
             TweenManager.removeTweenForTarget(key)
         TweenManager.__tweenMap = {}

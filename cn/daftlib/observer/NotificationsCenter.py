@@ -3,7 +3,7 @@ from cn.daftlib.observer.Notification import Notification
 
 class NotificationsCenter:
 
-    __observerMap = dict()
+    __observerMap:dict[str, list[IObserver]] = dict()
 
     @staticmethod
     def register(notificationName:str, observer:IObserver) -> None:

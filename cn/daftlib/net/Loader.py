@@ -23,8 +23,8 @@ class Loader(EventDispatcher, ILoadable):
     __url:str = None
     __response:requests.Response = None
 
-    def __init__(self, target = None) -> None:
-        super().__init__(target)
+    def __init__(self) -> None:
+        super().__init__()
 
     def __str__(self) -> str:
         return f"[{str(self.__class__)[8:-2]}]"
@@ -69,16 +69,16 @@ class Loader(EventDispatcher, ILoadable):
 
             self.dispatchEvent(Event(Event.COMPLETE))
         
-        except IOError as e:
-            # print(f'IOError: {str(e)}')
-            error = ErrorEvent(ErrorEvent.IO_ERROR)
-            error.errorMessage = f'IOError: {str(e)}'
-            self.dispatchEvent(error)
-
         except requests.exceptions.SSLError as e:
             # print(f'SecurityError: {str(e)}')
             error = ErrorEvent(ErrorEvent.SECURITY_ERROR)
             error.errorMessage = f'SecurityError: {str(e)}'
+            self.dispatchEvent(error)
+
+        except IOError as e:
+            # print(f'IOError: {str(e)}')
+            error = ErrorEvent(ErrorEvent.IO_ERROR)
+            error.errorMessage = f'IOError: {str(e)}'
             self.dispatchEvent(error)
 
     def cancle(self) -> None:

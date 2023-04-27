@@ -24,6 +24,7 @@ class GeomUtil:
     def degreesToRadians(degrees:float) -> float:
         return degrees * GeomUtil.toRADIANS
 
+    @staticmethod
     def radiansToDegrees(radians:float) -> float:
         return radians * GeomUtil.toDEGREES
 

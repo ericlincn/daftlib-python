@@ -9,5 +9,5 @@ class ErrorEvent(Event):
     errorMessage:str
     errorID:int
 
-    def __init__(self, type: str, bubbles: bool = False, cancelable: bool = False) -> None:
-        super().__init__(type, bubbles, cancelable)
+    def __init__(self, type:str) -> None:
+        super().__init__(type)

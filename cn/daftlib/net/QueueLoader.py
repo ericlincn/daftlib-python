@@ -22,13 +22,13 @@ from cn.daftlib.net.Loader import Loader
 
 class QueueLoader(EventDispatcher):
 
-    __items:list[Loader] = None
+    __items:list[tuple[Loader, str]] = None
     __loaded:dict = None
     __currentLoader:Loader = None
     __itemsLoaded:int = None
 
-    def __init__(self, target = None) -> None:
-        super().__init__(target)
+    def __init__(self) -> None:
+        super().__init__()
         self.clear()
 
     def __str__(self) -> str:
@@ -36,7 +36,7 @@ class QueueLoader(EventDispatcher):
 
     def clear(self):
         if self.hasEventListener(Event.COMPLETE):
-            self.removeEventListener(Event.COMPLETE)
+            self.removeEventListenersForType(Event.COMPLETE)
         
         if self.__currentLoader is not None:
             self.__currentLoader.removeEventListener(Event.COMPLETE, self.__completeHandler)
@@ -48,7 +48,7 @@ class QueueLoader(EventDispatcher):
         self.__loaded = {}
         self.__items = []
 
-    def add(self, url):
+    def add(self, url:str):
         loader = Loader()
         self.__items.append((loader, url))
 

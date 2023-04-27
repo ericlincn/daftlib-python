@@ -1,5 +1,3 @@
-from cn.daftlib.events.EventPhase import EventPhase
-
 class Event:
 
     # Events
@@ -43,63 +41,19 @@ class Event:
 
     # public members
     type:str
-    bubbles:bool
-    cancelable:bool
-
-    eventPhase:EventPhase
-    currentTarget:object
     target:object
 
-    # private members
-    __isCanceled:bool
-    __isCanceledNow:bool
-    __preventDefault:bool
-
-    def __init__(self, type:str, bubbles:bool = False, cancelable:bool = False) -> None:
+    def __init__(self, type:str) -> None:
         
         self.type = type
-        self.bubbles = bubbles
-        self.cancelable = cancelable
-
-        self.eventPhase = EventPhase.AT_TARGET
-        self.currentTarget = None
         self.target = None
 
-        self.__isCanceled = False
-        self.__isCanceledNow = False
-        self.__preventDefault = False
-
     def __str__(self) -> str:
-        return f"[{str(self.__class__)[8:-2]}](type={self.type}, bubbles={self.bubbles}, cancelable={self.cancelable})"
+        return f"[{str(self.__class__)[8:-2]}](type={self.type})"
 
     # def clone(self) -> Event:
     def clone(self):
 
-        event = Event(self.type, self.bubbles, self.cancelable)
-        event.eventPhase = self.eventPhase
+        event = Event(self.type)
         event.target = self.target
-        event.currentTarget = self.currentTarget
         return event
-
-    def isDefaultPrevented(self) -> bool:
-
-        return self.__preventDefault
-
-    def preventDefault(self) -> None:
-
-        if self.cancelable:
-            self.__preventDefault = True
-
-    def stopImmediatePropagation(self) -> None:
-
-        self.__isCanceled = True
-        self.__isCanceledNow = True
-
-    def stopPropagation(self) -> None:
-
-        self.__isCanceled = True
-
-    def isCanceled(self) -> bool:
-        return self.__isCanceled
-    def isCanceledNow(self) -> bool:
-        return self.__isCanceledNow

@@ -1,4 +1,4 @@
-from cn.daftlib.core.IDestroyable import IDestroyable
+from cn.daftlib.interfaces.IDestroyable import IDestroyable
 import cn.daftlib.transitions.TweenManager as tm
 import time
 

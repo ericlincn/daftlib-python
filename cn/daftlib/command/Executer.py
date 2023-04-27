@@ -1,4 +1,4 @@
-from cn.daftlib.core.IDestroyable import IDestroyable
+from cn.daftlib.interfaces.IDestroyable import IDestroyable
 from cn.daftlib.events.Event import Event
 from cn.daftlib.command.ICommand import ICommand
 from cn.daftlib.events.EventDispatcher import EventDispatcher
@@ -10,9 +10,9 @@ class Executer(EventDispatcher, IDestroyable):
     __commandsArr:list
     __undoCommand:ICommand
 
-    def __init__(self, target = None) -> None:
+    def __init__(self) -> None:
 
-        super().__init__(target)
+        super().__init__()
         self.reset()
 
     def __str__(self) -> str:
@@ -64,20 +64,3 @@ class Executer(EventDispatcher, IDestroyable):
     def addPriorityCommmand(self, command:ICommand):
 
         self.__commandsArr.insert(0, command)
-
-    # def printCommmands(self):
-
-    #     s = ""
-    #     l = len(self.__commandsArr)
-    #     if l > 0:
-    #         for i in range(0, l):
-    #             c = str(type(self.__commandsArr[i]))
-    #             c = c.replace("<class '", "")
-    #             c = c.replace("'>", "")
-    #             c = c.split(".")[-1]
-
-    #             if c == "ICommand": c = "."
-    #             else: c = c.replace("Command", ""); c += " "
-                
-    #             s += c
-    #     return s

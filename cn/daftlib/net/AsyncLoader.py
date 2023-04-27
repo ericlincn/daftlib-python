@@ -29,8 +29,8 @@ class AsyncLoader(EventDispatcher, ILoadable):
     __url:str = None
     __response = None
 
-    def __init__(self, target = None) -> None:
-        super().__init__(target)
+    def __init__(self) -> None:
+        super().__init__()
 
     def __str__(self) -> str:
         return f"[{str(self.__class__)[8:-2]}]"
@@ -80,12 +80,6 @@ class AsyncLoader(EventDispatcher, ILoadable):
             # print('Finished')
             self.dispatchEvent(Event(Event.COMPLETE))
 
-        except IOError as e:
-            # print(f'IOError: {str(e)}')
-            error = ErrorEvent(ErrorEvent.IO_ERROR)
-            error.errorMessage = f'IOError: {str(e)}'
-            self.dispatchEvent(error)
-
         except aiohttp.ClientError as e:
             # print(f'SecurityError: {str(e)}')
             error = ErrorEvent(ErrorEvent.SECURITY_ERROR)
@@ -96,6 +90,12 @@ class AsyncLoader(EventDispatcher, ILoadable):
             # print(f'SecurityError: {str(e)}')
             error = ErrorEvent(ErrorEvent.SECURITY_ERROR)
             error.errorMessage = f'SecurityError: {str(e)}'
+            self.dispatchEvent(error)
+
+        except IOError as e:
+            # print(f'IOError: {str(e)}')
+            error = ErrorEvent(ErrorEvent.IO_ERROR)
+            error.errorMessage = f'IOError: {str(e)}'
             self.dispatchEvent(error)
 
     def cancle(self) -> None:

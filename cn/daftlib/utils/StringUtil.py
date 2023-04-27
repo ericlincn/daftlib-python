@@ -10,11 +10,13 @@ class StringUtil:
     UNICODE:str = "unicode" # utf-16
     UTF8:str = "utf-8" # unicode-1-1-utf-8, unicode-2-0-utf-8, x-unicode-2-0-utf-8
 
+    @staticmethod
     def encodeByCharset(source:str, charset:str) -> bytes:
         encoded = source.encode(charset)
         return encoded
 
-    def isURL(source):
+    @staticmethod
+    def isURL(source:str) -> bool:
         source = StringUtil.trim(source).lower()
         pattern = re.compile('^https?://[a-z0-9]+\.[a-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$')
         result = pattern.match(source)
@@ -22,48 +24,59 @@ class StringUtil:
             return False
         return True
 
-    def isEmail(source):
+    @staticmethod
+    def isEmail(source:str) -> bool:
         pattern = re.compile('^[A-Z0-9._%+-]+@(?:[A-Z0-9-]+\.)+[A-Z]{2,4}$', re.IGNORECASE)
         return pattern.match(source) is not None
 
-    def isNumber(source):
+    @staticmethod
+    def isNumber(source:str) -> bool:
         try:
             float(source)
             return True
         except ValueError:
             return False
 
-    def trim(source):
+    @staticmethod
+    def trim(source:str) -> str:
         return StringUtil.rtrim(StringUtil.ltrim(source))
 
-    def ltrim(source):
+    @staticmethod
+    def ltrim(source:str) -> str:
         pattern = re.compile('^\s*')
         return pattern.sub('', source)
 
-    def rtrim(source):
+    @staticmethod
+    def rtrim(source:str) -> str:
         pattern = re.compile('\s*$')
         return pattern.sub('', source)
 
-    def initialCap(source):
+    @staticmethod
+    def initialCap(source:str) -> str:
         return source[0].upper() + source[1:].lower()
 
-    def removeWhitespace(source):
+    @staticmethod
+    def removeWhitespace(source:str) -> str:
         pattern = re.compile(r'[ \n\t\r]')
         return pattern.sub('', source)
 
-    def getNumbersFromString(source):
+    @staticmethod
+    def getNumbersFromString(source:str) -> str:
         pattern = re.compile(r'[^0-9]')
         return pattern.sub('', source)
 
-    def getLettersFromString(source):
+    @staticmethod
+    def getLettersFromString(source:str) -> str:
         pattern = re.compile(r'[^A-Za-z]')
         return pattern.sub('', source)
 
-    def replace(source, remove, replace):
+    @staticmethod
+    def replace(source:str, remove:str, replace:str) -> str:
         pattern = re.compile(remove)
         return pattern.sub(replace, source)
 
-    def substitute(source, *rest):
+    @staticmethod
+    def substitute(source:str, *rest) -> str:
         if source is None:
             return ''
         args = rest[0] if len(rest) == 1 and isinstance(rest[0], list) else rest
@@ -71,7 +84,8 @@ class StringUtil:
             source = source.replace("{" + str(i) + "}", str(arg))
         return source
     
-    def substituteProperty(source, obj):
+    @staticmethod
+    def substituteProperty(source:str, obj) -> str:
         if source == None:
             return ''
 
@@ -80,42 +94,48 @@ class StringUtil:
 
         return source
 
-    def removeExtension(source):
+    @staticmethod
+    def removeExtension(source:str) -> str:
         extensionIndex = source.rfind('.')
         if extensionIndex == -1:
             return source
         else:
             return source[:extensionIndex]
 
-    def getExtension(source):
+    @staticmethod
+    def getExtension(source:str) -> str:
         extensionIndex = source.rfind('.')
         if extensionIndex == -1:
             return None
         else:
             return source[extensionIndex + 1:].lower()
 
-    def getRandomString(length):
+    @staticmethod
+    def getRandomString(length:int) -> str:
         chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678' # 默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
         out = ''
         for i in range(length):
             out += random.choice(chars)
         return out
     
-    def containsChinese(source):
+    @staticmethod
+    def containsChinese(source:str) -> bool:
         for c in source:
             code = ord(c)
             if (code >= 0x4e00) and (code <= 0x9fbb):
                 return True
         return False
 
-    def containsNonEnglish(source):
+    @staticmethod
+    def containsNonEnglish(source:str) -> bool:
         for c in source:
             code = ord(c)
             if code > 255 or code < 0:
                 return True
         return False
 
-    def getFormattedNumber(value):
+    @staticmethod
+    def getFormattedNumber(value) -> str:
         if math.isnan(value):
             return "NaN"
         if value == float('inf'):
@@ -140,3 +160,12 @@ class StringUtil:
             result += decimalSeparator + after
 
         return result
+    
+    @staticmethod
+    def getTextInsideBrackets(source:str) -> str:
+        pattern = r'\[(.*?)\]'
+        match = re.search(pattern, source)
+        if match:
+            return match.group(1)
+        else:
+            return None
