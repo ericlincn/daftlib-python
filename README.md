@@ -27,6 +27,16 @@ hsl.value = rgb.value
 print(hex(hsl.value), ColorUtil.getDifference(hsl.value, rgb.value))
 ```
 
+ChatGPT API
+```python
+llm = OpenAI(api_key)
+llm.temperature = 0
+prompt = f"With programming language python, the keywords for classes and methods are [class, def], with programming language {target_lang}, the keywords for classes and methods are"
+ends = "."
+res = llm.completion(prompt, ends)
+text = json.loads(res)['choices'][0]['text']
+```
+
 Event system
 ```python
 def onComplete(e):
