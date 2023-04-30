@@ -51,8 +51,6 @@ Signal system
 ```python
 def onComplete():
     print("complete")
-def onComplete2():
-    print("complete2")
 def onActive(data):
     print("active", data)
 class B:
@@ -61,12 +59,10 @@ class B:
 
 dispathcer = B()
 dispathcer.complete.connect(onComplete)
-dispathcer.complete.connect(onComplete2)
 dispathcer.active.connect(onActive)
 dispathcer.complete.emit()
 dispathcer.active.emit([1,2,3])
 dispathcer.complete.disconnectAll()
-dispathcer.complete.emit()
 ```
 
 Queue commands
