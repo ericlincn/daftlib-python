@@ -75,6 +75,20 @@ dispathcer.active.emit([1,2,3])
 dispathcer.complete.disconnectAll()
 ```
 
+Observer
+```python
+class Ob(IObserver):
+    def handlerNotification(self, notification) -> None:
+        print("Got notification:", notification, notification.body)
+
+ob = Ob()
+NotificationsCenter.register("noti_name", ob)
+
+# somewhere else ...
+
+NotificationsCenter.sendNotification("noti_name", {"name":"eric"})
+```
+
 Queue commands
 ```python
 class Command(EventDispatcher, ICommand):
@@ -136,20 +150,6 @@ ql.add('res://result.png')
 ql.addEventListener(Event.COMPLETE, onComplete)
 ql.addEventListener(ProgressEvent.PROGRESS, onProgress)
 ql.start()
-```
-
-Observer
-```python
-class Ob(IObserver):
-    def handlerNotification(self, notification) -> None:
-        print("Got notification:", notification, notification.body)
-
-ob = Ob()
-NotificationsCenter.register("noti_name", ob)
-
-# somewhere else ...
-
-NotificationsCenter.sendNotification("noti_name", {"name":"eric"})
 ```
 
 Pulse
