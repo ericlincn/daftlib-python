@@ -6,9 +6,7 @@ A collection of commonly used utility classes and data structures.
 ## Features
 - Conversion between RGB and HSL color spaces
 - Message passing mechanism based on event or observer pattern
-- Automatic responsive layout
 - Queued loading of external resources
-- Implementation of multitouch
 - Implementation of easing functions
 - And others.
 
