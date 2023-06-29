@@ -28,7 +28,7 @@ class NotificationsCenter:
         i = 0
         while i < len(observersArr):
             observer:IObserver = observersArr[i]
-            callback = observer.handlerNotification
+            callback = observer.notificationHandler
             notification:Notification = Notification(notificationName, data)
             callback(notification)
             i += 1
