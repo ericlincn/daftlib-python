@@ -76,7 +76,7 @@ dispathcer.complete.disconnectAll()
 Observer
 ```python
 class Ob(IObserver):
-    def handlerNotification(self, notification) -> None:
+    def notificationHandler(self, notification) -> None:
         print("Got notification:", notification, notification.body)
 
 ob = Ob()
