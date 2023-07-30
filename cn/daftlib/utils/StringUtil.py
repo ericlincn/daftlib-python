@@ -119,6 +119,12 @@ class StringUtil:
         return out
     
     @staticmethod
+    def getRandomCode(length:int) -> str:
+        digits = [str(random.randint(0, 9)) for _ in range(length)]
+        code = ''.join(digits)
+        return code
+    
+    @staticmethod
     def containsChinese(source:str) -> bool:
         for c in source:
             code = ord(c)
@@ -169,3 +175,9 @@ class StringUtil:
             return match.group(1)
         else:
             return None
+    
+    @staticmethod
+    def sanitizeFilename(filename:str) -> str:
+        forbidden_chars = r'[<>:"/\\|?*\x00-\x1F\x7F]'
+        sanitized_filename = re.sub(forbidden_chars, '', filename)
+        return sanitized_filename
