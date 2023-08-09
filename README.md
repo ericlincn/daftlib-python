@@ -193,7 +193,7 @@ return 'Transaction completed!'
 
 When using htmx, ignore specific status codes in certain responses, such as 422 and 429, while maintaining htmx's default swap behavior. Require Flask, htmx
 ```html
-<!-- html code -->
+<!-- html code in Jinja2 template-->
 {{ htmx_script | safe }}
 
 <input type="email" id="email" name="email" required
