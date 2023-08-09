@@ -175,3 +175,33 @@ TweenManager.tweenTo(a, 2, {"v":0, "onUpdate":onUpdate, "onComplete":onComplete,
 
 TweenManager.delayCall(4, onComplete, ["big", "small"])
 ```
+
+SQLAlchemy with auto commit
+```python
+app = Flask(__name__)
+db = FlaskSQLAlchemy(app)
+
+@app.route('/example')
+def example():
+    with db.auto_commit():
+        # Perform database operations here, For example, adding a new record:
+        new_record = YourModel(name='example', value=123)
+        db.session.add(new_record)
+# The changes will be automatically committed at the end of the with-block if no exceptions occurred.
+return 'Transaction completed!'
+```
+
+When using htmx, ignore specific status codes in certain responses, such as 422 and 429, while maintaining htmx's default swap behavior.
+```html
+{{ htmx_script | safe }}
+
+<input type="email" id="email" name="email" required
+    hx-get="/captcha/email"
+    hx-on="htmx:beforeOnLoad: before_on_load(event)">
+```
+
+```python
+@app.route('/register')
+def register():
+    return render_template("register.html", htmx_script = Js.htmx_ignore_error([422, 429]))
+```
