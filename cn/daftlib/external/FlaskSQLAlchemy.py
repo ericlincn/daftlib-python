@@ -1,4 +1,4 @@
-# This code defines a custom SQLAlchemy extension called DaftSQLAlchemy. 
+# This code defines a custom SQLAlchemy extension called FlaskSQLAlchemy. 
 # It includes a context manager called auto_commit that provides a convenient way to 
 # perform auto-commit transactions with the SQLAlchemy session.
 
@@ -7,7 +7,7 @@
 # that are executed when entering and exiting the with-block, respectively.
 
 # In this case, @contextmanager decorator is used from the contextlib module to create 
-# a context manager for DaftSQLAlchemy. The auto_commit context manager wraps 
+# a context manager for FlaskSQLAlchemy. The auto_commit context manager wraps 
 # a block of code where you can perform database operations, 
 # and it will automatically commit the changes if no exceptions are raised. 
 # If an exception occurs within the block, it will perform a rollback on the session.
@@ -15,7 +15,7 @@
 # Here's how you can use it:
 
 # app = Flask(__name__)
-# db = DaftSQLAlchemy(app)
+# db = FlaskSQLAlchemy(app)
 # @app.route('/example')
 # def example():
 #     with db.auto_commit():
