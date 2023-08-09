@@ -191,6 +191,46 @@ def example():
 return 'Transaction completed!'
 ```
 
+Create Table at runtime. Require Flask, Flask-SQLAlchemy
+```python
+app = Flask(__name__)
+db = FlaskSQLAlchemy(app)
+
+@app.route('/example')
+def example():
+    data_model = DataModel.model(0)
+    if not db.has_table(data_model.tablename):
+        db.create_table(data_model)
+return 'Table created!'
+```
+```python
+from ext import db
+
+class DataModel:
+    __table_dict = {}
+
+    @staticmethod
+    def model(id:int):
+        class_name:str = "data_table_%s" % str(id)
+
+        ModelClass = DataModel.__table_dict.get(class_name, None)
+        if ModelClass is None:
+            ModelClass = type(class_name, (db.Model, ), 
+                              {
+                                  '__module__': __name__,
+                                  '__name__': class_name,
+                                  '__tablename__': class_name,
+
+                                  'id': db.Column(db.Integer, primary_key = True, autoincrement = True),
+                                  'data': db.Column(db.String(20), nullable = False)
+                              })
+            DataModel.__table_dict[class_name] = ModelClass
+        
+        cls = ModelClass()
+        cls.tablename = class_name
+        return cls
+```
+
 When using htmx, ignore specific status codes in certain responses, such as 422 and 429, while maintaining htmx's default swap behavior. Require Flask, htmx
 ```html
 <!-- html code in Jinja2 template-->
