@@ -27,6 +27,7 @@
 
 from contextlib import contextmanager
 from flask_sqlalchemy import SQLAlchemy
+import sqlalchemy as sa
 
 class FlaskSQLAlchemy(SQLAlchemy):
 
@@ -38,3 +39,7 @@ class FlaskSQLAlchemy(SQLAlchemy):
         except Exception as e:
             self.session.rollback()
             raise e
+    
+    def has_table(self, table_name:str) -> bool:
+        inspect = sa.inspect(self.engine)
+        return inspect.has_table(table_name)
