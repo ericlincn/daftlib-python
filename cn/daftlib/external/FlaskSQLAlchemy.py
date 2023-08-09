@@ -32,7 +32,7 @@ import sqlalchemy as sa
 class FlaskSQLAlchemy(SQLAlchemy):
 
     @contextmanager
-    def auto_commit(self):
+    def auto_commit(self) -> None:
         try:
             yield
             self.session.commit()
@@ -43,3 +43,6 @@ class FlaskSQLAlchemy(SQLAlchemy):
     def has_table(self, table_name:str) -> bool:
         inspect = sa.inspect(self.engine)
         return inspect.has_table(table_name)
+    
+    def create_table(self, model:sa.schema.Table) -> None:
+        model.metadata.create_all(self.engine)
