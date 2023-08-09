@@ -176,7 +176,7 @@ TweenManager.tweenTo(a, 2, {"v":0, "onUpdate":onUpdate, "onComplete":onComplete,
 TweenManager.delayCall(4, onComplete, ["big", "small"])
 ```
 
-SQLAlchemy with auto commit
+SQLAlchemy with auto commit. Require Flask, Flask-SQLAlchemy
 ```python
 app = Flask(__name__)
 db = FlaskSQLAlchemy(app)
@@ -191,7 +191,7 @@ def example():
 return 'Transaction completed!'
 ```
 
-When using htmx, ignore specific status codes in certain responses, such as 422 and 429, while maintaining htmx's default swap behavior.
+When using htmx, ignore specific status codes in certain responses, such as 422 and 429, while maintaining htmx's default swap behavior. Require Flask, htmx
 ```html
 {{ htmx_script | safe }}
 
