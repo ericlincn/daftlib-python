@@ -208,6 +208,23 @@ def example():
         db.create_table(data_model)
 return 'Table created!'
 ```
+***Be cautious!!! Using Flask-Migrate could accidentally delete runtime tables that have already been created. To address this issue, modify the def run_migrations_online(): function in the env.py file located in the migrations folder:***
+```python
+connectable = get_engine()
+target_metadata = get_metadata()
+target_metadata.reflect(get_engine(), only=["data_0"])
+
+with connectable.connect() as connection:
+    context.configure(
+        connection=connection,
+        target_metadata=target_metadata,
+        process_revision_directives=process_revision_directives,
+        **current_app.extensions['migrate'].configure_args
+    )
+
+    with context.begin_transaction():
+        context.run_migrations()
+```
 
 When using htmx, ignore specific status codes in certain responses, such as 422 and 429, while maintaining htmx's default swap behavior. Require Flask, htmx
 ```html
