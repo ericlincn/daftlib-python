@@ -8,7 +8,7 @@ A collection of commonly used utility classes and data structures.
 - Message passing mechanism based on event or observer pattern
 - Queued loading of external resources
 - Implementation of easing functions
-- And others.
+- And much more.
 
 ## Requirements
 - requests
