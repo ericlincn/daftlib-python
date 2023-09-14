@@ -241,3 +241,13 @@ When using htmx, ignore specific status codes in certain responses, such as 422 
 def register():
     return render_template("register.html", htmx_script = Js.htmx_ignore_error([422, 429]))
 ```
+
+Generate Snowflake ID
+```python
+machine_id = 23
+generator = SnowflakeID(machine_id)
+
+for _ in range(10):
+    unique_id = generator.generate_id()
+    print(unique_id)
+```
